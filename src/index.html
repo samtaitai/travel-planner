@@ -22,7 +22,6 @@
         <section id="input" class="col">
           <h2 class="mb-4">Question parameters</h2>
           <form action="#" method="post" id="input-form">
-            <div class="mb-3"></div>
             <div class="mb-3">
               <label for="departure" class="form-label">Departure</label>
               <input
@@ -31,7 +30,8 @@
                 id="departure"
                 name="departure"
                 maxlength="50"
-                placeholder="Where do you live?"
+                placeholder="Which city do you live?"
+                required
               />
             </div>
             <div class="mb-3">
@@ -42,7 +42,8 @@
                 id="arrival"
                 name="arrival"
                 maxlength="50"
-                placeholder="Where do you want to go?"
+                placeholder="Which city do you want to go?"
+                required
               />
             </div>
             <div class="mb-3">
@@ -60,9 +61,9 @@
                 type="range"
                 id="budget"
                 name="budget"
-                min="1"
-                max="3"
-                value="2"
+                min="for-broken"
+                max="flex"
+                value="average"
               />
             </div>
 
@@ -122,7 +123,7 @@
               <div class="form-check">
                 <input
                   class="form-check-input"
-                  type="checkbox"
+                  type="radio"
                   id="senior"
                   name="requirements"
                   value="senior"
@@ -132,7 +133,7 @@
               <div class="form-check">
                 <input
                   class="form-check-input"
-                  type="checkbox"
+                  type="radio"
                   id="kid"
                   name="requirements"
                   value="kid"
@@ -142,7 +143,7 @@
               <div class="form-check">
                 <input
                   class="form-check-input"
-                  type="checkbox"
+                  type="radio"
                   id="pet"
                   name="requirements"
                   value="pet"

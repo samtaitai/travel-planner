@@ -39,12 +39,14 @@ function buildUserPrompt(
   Because I depart from ${depart}, every cost should be calculated in 
   the dominant currency in ${depart}.  
   Also, Based on the fact that my favorite activity is 
-  ${activity}, suggest me a couple of location that I must visit.
+  ${activity}, suggest me a couple of location that I must visit 
+  with detailed reasons why you suggest those spots.
   Also, Based on the fact that I take care of ${requirement}, 
-  suggest me a couple of ${requirement} friendly tourist spots. 
-  Considering 1 means very tight budget, 2 means average budget, 3 means I don't care
-  how much I spend on my vacation. If my budget is ${budget}, you should take it
-  into consideration. When you suggest above. 
+  suggest me a couple of ${requirement} friendly tourist spots 
+  with detailed reasons why you suggest those spots. 
+  Considering for-broken means very tight budget, average means average budget, 
+  flex means I don't care how much I spend on my vacation. If my budget is ${budget}, 
+  you should take it into consideration. When you suggest above. 
 
 You must format your response using Bootstrap HTML in the following form, 
 \adding Bootstrap classes to make the response look nice:
@@ -159,8 +161,8 @@ function processFormInput(form) {
   const arrival = form.arrival.value.trim();
   const duration = form.period.options[period.selectedIndex].text;
   const budget = form.budget.value;
-  const activity = form.activity.value.checked;
-  const requirement = form.requirements.value.checked;
+  const activity = form.activity.value;
+  const requirement = form.requirements.value;
 
   // Update the Submit button to indicate we're done loading
   toggleSubmitButton();
