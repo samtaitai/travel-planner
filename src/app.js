@@ -21,11 +21,12 @@ function configureOpenAI() {
 
 // Translate our user's form input into a ChatGPT prompt format
 function buildUserPrompt(
-  topic,
-  level,
-  questionCount,
-  questionType,
-  includeAnswers
+  depart,
+  arrival,
+  duration,
+  budget,
+  activity,
+  requirement
 ) {
   const prompt = `
   I'm going to take a flight from ${depart} to ${arrival}. 
@@ -33,6 +34,8 @@ function buildUserPrompt(
   ${activity}. 
   I need you to answer how much the round flight ticket would be, 
   how much an average day budget and total budget would be. 
+  The total budget should be the total sum of flight tickets, accommodation, plus
+  a day budget multiply how many days in ${duration}.
   Because I depart from ${depart}, every cost should be calculated in 
   the dominant currency in ${depart}.  
   Also, Based on the fact that my favorite activity is 
@@ -57,7 +60,7 @@ You must format your response using Bootstrap HTML in the following form,
 // the network, and wait (i.e., `await`) the response.  The `async` keyword
 // is needed on any function that needs to run asynchronous calls and `await`.
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function
-async function chat(topic, level, questionCount, questionType, includeAnswers) {
+async function chat(depart, arrival, duration, budget, activity, requirement) {
   // Setup the openai client
   const openai = configureOpenAI();
 
@@ -123,7 +126,7 @@ function toggleSubmitButton() {
 
   // Flip the button's text back to "Loading..."" or "Submit"
   const submitButtonText = submitButton.querySelector(".submit-button-text");
-  debugger;
+  //debugger;
   if (submitButtonText.innerHTML === "Loading...") {
     submitButtonText.innerHTML = "Submit";
   } else {
