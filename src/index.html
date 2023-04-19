@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>My Study Helper</title>
+    <title>My Travel Planner</title>
     <!-- Use Bootstrap for our CSS styles, see https://getbootstrap.com/docs/5.3/getting-started/introduction/ -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
@@ -14,163 +14,157 @@
   </head>
   <body>
     <main class="container">
-      <!-- Split this part of the page in half, form on left, output on right-->
-      <div class="container">
-        <header class="row mb-3 border-bottom">
-          <h1 class="mt-4">My Study Helper</h1>
-          <p>
-            <em>Enter your learning requirements and have AI generate questions for you.</em>
-          </p>
-        </header>
+      <header class="row mb-3 border-bottom">
+        <h1 class="mt-4">Travel planner</h1>
+        <p>Plan your next vacation abroad</p>
+      </header>
+      <div class="row">
+        <section id="input" class="col">
+          <h2 class="mb-4">Question parameters</h2>
+          <form action="#" method="post" id="input-form">
+            <div class="mb-3"></div>
+            <div class="mb-3">
+              <label for="departure" class="form-label">Departure</label>
+              <input
+                type="text"
+                class="form-control"
+                id="departure"
+                name="departure"
+                maxlength="50"
+                placeholder="Where do you live?"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="arrival" class="form-label">Arrival</label>
+              <input
+                type="text"
+                class="form-control"
+                id="arrival"
+                name="arrival"
+                maxlength="50"
+                placeholder="Where do you want to go?"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="period" class="form-label">Duration</label>
+              <select id="period" class="form-control">
+                <option value="1">Weekend trip</option>
+                <option value="2">Less than a week</option>
+                <option value="3">A couple of weeks</option>
+                <option value="4">More than a month</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="budget" class="form-label">Budget($ to $$$)</label>
+              <input
+                type="range"
+                id="budget"
+                name="budget"
+                min="1"
+                max="3"
+                value="2"
+              />
+            </div>
 
-        <!-- Split the remaining space in half: left for input form, right for AI output -->
-        <div class="row">
-          <section id="input" class="col">
-            <h2 class="mb-4">Question Parameters</h2>
-
-            <!-- Use an action URL of #, meaning, "stay on this page vs post to another" -->
-            <form action="#" method="post" id="input-form">
-              <div class="mb-3">
-                <label
-                  for="topic"
-                  class="form-label w-100 d-flex justify-content-between"
+            <fieldset class="mb-3">
+              <legend>Your favorite activity is</legend>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  id="nature"
+                  name="activity"
+                  value="nature"
+                />
+                <label class="form-check-label" for="nature"
+                  >Exploring nature</label
                 >
-                  Topic
-                  <span class="badge text-bg-light" id="topic-badge"></span>
-                </label>
-                <textarea
-                  class="form-control"
-                  id="topic"
-                  name="topic"
-                  rows="10"
-                  maxlength="5000"
-                  placeholder="Enter info about your desired topic, or copy/paste notes"
-                ></textarea>
               </div>
-
-              <div class="mb-3">
-                <label for="level" class="form-label">
-                  Learner Level (Beginner to Expert)
-                </label>
+              <div class="form-check">
                 <input
-                  type="range"
-                  class="form-range"
-                  id="level"
-                  name="level"
-                  min="1"
-                  max="10"
-                  value="3"
+                  class="form-check-input"
+                  type="radio"
+                  id="theme-park"
+                  name="activity"
+                  value="theme-park"
                 />
+                <label class="form-check-label" for="theme-park"
+                  >Visiting amusement park</label
+                >
               </div>
-
-              <div class="mb-3">
-                <label for="question-count" class="form-label">
-                  Question Count
-                </label>
+              <div class="form-check">
                 <input
-                  type="number"
-                  class="form-control"
-                  id="question-count"
-                  name="question-count"
-                  min="1"
-                  max="10"
-                  value="3"
+                  class="form-check-input"
+                  type="radio"
+                  id="museum"
+                  name="activity"
+                  value="museum"
                 />
+                <label class="form-check-label" for="museum"
+                  >Visiting a museum</label
+                >
               </div>
-
-              <div class="mb-3">
-                <div>
-                  <label class="form-label">Question Type</label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="question-type"
-                    value="True/False"
-                    id="type-tf"
-                    checked
-                  />
-                  <label class="form-check-label" for="type-tf">
-                    True/False
-                  </label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="question-type"
-                    value="Multiple Choice"
-                    id="type-mc"
-                  />
-                  <label class="form-check-label" for="type-mc">
-                    Multiple Choice
-                  </label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="question-type"
-                    value="Short Answer"
-                    id="type-short"
-                  />
-                  <label class="form-check-label" for="type-short">
-                    Short Answer
-                  </label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="question-type"
-                    value="Fill in the Blank"
-                    id="type-fill"
-                  />
-                  <label class="form-check-label" for="type-fill">
-                    Fill in the Blank
-                  </label>
-                </div>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  id="food"
+                  name="activity"
+                  value="food"
+                />
+                <label class="form-check-label" for="food"
+                  >Indulging local foods</label
+                >
               </div>
-
-              <div class="mb-3">
+            </fieldset>
+            <fieldset class="mb-3">
+              <legend>I travel with</legend>
+              <div class="form-check">
                 <input
                   class="form-check-input"
                   type="checkbox"
-                  value=""
-                  id="include-answers"
+                  id="senior"
+                  name="requirements"
                 />
-                <label class="form-check-label" for="include-answers">
-                  Include Answers
-                </label>
+                <label class="form-check-label" for="senior">Senior</label>
               </div>
-
-              <div class="text-end">
-                <button type="submit" class="btn btn-primary">
-                  <!-- Spinner Icon -->
-                  <span
-                    class="submit-button-spinner spinner-border spinner-border-sm"
-                    hidden
-                    role="status"
-                    aria-hidden="true"
-                  ></span>
-                  <span class="submit-button-text">Submit</span>
-                </button>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="baby"
+                  name="requirements"
+                />
+                <label class="form-check-label" for="baby">Baby or kid</label>
               </div>
-            </form>
-          </section>
-
-          <section class="col">
-            <h2>AI Output</h2>
-            <div id="output">
-              <!-- Empty, because we'll populate this with AI generated text -->
-            </div>
-          </section>
-        </div>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="pet"
+                  name="requirements"
+                />
+                <label class="form-check-label" for="pet">Pet</label>
+              </div>
+            </fieldset>
+            <button type="submit" class="btn btn-primary w-100">
+              <!-- Spinner Icon -->
+              <span
+                class="submit-button-spinner spinner-border spinner-border-sm"
+                hidden
+                role="status"
+                aria-hidden="true"
+              ></span>
+              <span class="submit-button-text">Submit</span>
+            </button>
+          </form>
+        </section>
+        <section id="output" class="col">
+          <h2 class="mb-4">AI output</h2>
+        </section>
       </div>
+      <footer>Who made this</footer>
     </main>
-
-    <!-- Include Bootstrap's code and our own app.js -->
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"

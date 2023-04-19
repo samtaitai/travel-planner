@@ -3,8 +3,7 @@
 // For this to work, we have to "bundle" our JavaScript code together
 // with the OpenAI code, and any code it needs.  We'll do that using
 // https://parceljs.org/
-const { OpenAIApi, Configuration } = require('openai');
-
+const { OpenAIApi, Configuration } = require("openai");
 
 // You need an OpenAI account and Secret API Key for this to work, see:
 // https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key
@@ -21,24 +20,36 @@ function configureOpenAI() {
 }
 
 // Translate our user's form input into a ChatGPT prompt format
-function buildUserPrompt(topic, level, questionCount, questionType, includeAnswers) {
-  const prompt = 
-`I'm studying the following topic:
+function buildUserPrompt(
+  topic,
+  level,
+  questionCount,
+  questionType,
+  includeAnswers
+) {
+  const prompt = `
+  I'm going to take a flight from ${depart} to ${arrival}. 
+  I'm going to stay there for ${duration}. I want to focus on activities like 
+  ${activity}. 
+  I need you to answer how much the round flight ticket would be, 
+  how much an average day budget and total budget would be. 
+  Because I depart from ${depart}, every cost should be calculated in 
+  the dominant currency in ${depart}.  
+  Also, Based on the fact that my favorite activity is 
+  ${activity}, suggest me a couple of location that I must visit.
+  Also, Based on the fact that I take care of ${requirement}, 
+  suggest me a couple of ${requirement} friendly tourist spots. 
+  Considering 1 means very tight budget, 2 means average budget, 3 means I don't care
+  how much I spend on my vacation. If my budget is ${budget}, you should take it
+  into consideration. When you suggest above. 
 
----begin-topic---
-${topic}
----end-topic---
-
-I need ${questionCount} ${questionType} questions${includeAnswers ? ', including answers.' : ', do NOT include answers.'}
-
-In terms of my knowledge level as a student, on a scale from 1-10 (beginner to expert) I'm a ${level}. Take this into account in your response.
-
-You must format your response using Bootstrap HTML in the following form, adding Bootstrap classes to make the response look nice:
+You must format your response using Bootstrap HTML in the following form, 
+\adding Bootstrap classes to make the response look nice:
 
 <div class="container">...</div>
 `;
 
-  console.log({prompt});
+  console.log({ prompt });
   return prompt;
 }
 
@@ -56,16 +67,23 @@ async function chat(topic, level, questionCount, questionType, includeAnswers) {
     // System prompt tells the AI how to function
     {
       role: "system",
-      content: "You are a college-level educational assistant, helping students study topics."
+      content: "You are a travel agent, helping customers plan their trip.",
     },
     // User prompt is what we want it to do
     {
       role: "user",
       // Build the prompt using our function and the user's data
-      content: buildUserPrompt(topic, level, questionCount, questionType, includeAnswers)
-    }
-  ]
-  
+      content: buildUserPrompt(
+        depart,
+        arrival,
+        duration,
+        budget,
+        activity,
+        requirement
+      ),
+    },
+  ];
+
   // Any network request could fail, so we use try/catch
   try {
     // Send our messages to OpenAI, and `await` the response (it will take time)
@@ -96,45 +114,50 @@ async function chat(topic, level, questionCount, questionType, includeAnswers) {
 
 // Toggle the Submit button to a Loading... button, or vice versa
 function toggleSubmitButton() {
-  const submitButton = document.querySelector('#input-form button[type=submit]');
+  const submitButton = document.querySelector(
+    "#input-form button[type=submit]"
+  );
 
   // Flip the value true->false or false->true
   submitButton.disabled = !submitButton.disabled;
 
   // Flip the button's text back to "Loading..."" or "Submit"
-  const submitButtonText = submitButton.querySelector('.submit-button-text');
+  const submitButtonText = submitButton.querySelector(".submit-button-text");
   debugger;
-  if(submitButtonText.innerHTML === 'Loading...') {
-    submitButtonText.innerHTML = 'Submit';
+  if (submitButtonText.innerHTML === "Loading...") {
+    submitButtonText.innerHTML = "Submit";
   } else {
-    submitButtonText.innerHTML = 'Loading...';
+    submitButtonText.innerHTML = "Loading...";
   }
 
   // Show or Hide the loading spinner
-  const submitButtonSpinner = submitButton.querySelector('.submit-button-spinner')
+  const submitButtonSpinner = submitButton.querySelector(
+    ".submit-button-spinner"
+  );
   submitButtonSpinner.hidden = !submitButtonSpinner.hidden;
 }
 
 // Update the output to use new HTML content
 function displayOutput(html) {
   // Put the AI generated HTML into our output div.  Use `innerHTML` so it renders as HTML
-  const output = document.querySelector('#output');
+  const output = document.querySelector("#output");
   output.innerHTML = html;
 }
 
 // Set the output to nothing (clear it)
 function clearOutput() {
-  displayOutput('');
+  displayOutput("");
 }
 
 // Process the user's form input and send to ChatGPT API
 function processFormInput(form) {
   // Get values from the form
-  const topic = form.topic.value.trim();
-  const level = form.level.value;
-  const questionCount = form['question-count'].value;
-  const questionType = form['question-type'].value;
-  const includeAnswers = form['include-answers'].checked;
+  const depart = form.departure.value.trim();
+  const arrival = form.arrival.value.trim();
+  const duration = form.period.options[period.selectedIndex].text;
+  const budget = form.budget.value;
+  const activity = form.activity.value.checked;
+  const requirement = form.requirements.value.checked;
 
   // Update the Submit button to indicate we're done loading
   toggleSubmitButton();
@@ -143,27 +166,19 @@ function processFormInput(form) {
   clearOutput();
 
   // Send the input values to OpenAI's ChatGPT API
-  chat(topic, level, questionCount, questionType, includeAnswers);
+  chat(depart, arrival, duration, budget, activity, requirement);
 }
 
 function main() {
   // Wait for the user to submit the form
-  document.querySelector('#input-form').onsubmit = function(e) {
+  document.querySelector("#input-form").onsubmit = function (e) {
     // Stop the form from submitting, we'll handle it in the browser with JS
     e.preventDefault();
 
     // Process the data in the form, passing the form to the function
-    processFormInput(e.target)
+    processFormInput(e.target);
   };
-
-  // Update the character count when the user enters any text in the topic textarea
-  document.querySelector('#topic').oninput = function(e) {
-    // Get the current length
-    const length = e.target.value.length;
-    // Update the badge text
-    document.querySelector('#topic-badge').innerText = `${length} characters`;
-  }
 }
 
 // Wait for the DOM to be ready before we start
-addEventListener('DOMContentLoaded', main);
+addEventListener("DOMContentLoaded", main);
