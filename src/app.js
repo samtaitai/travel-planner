@@ -41,18 +41,22 @@ function buildUserPrompt(
   Also, Based on the fact that my favorite activity is 
   ${activity}, suggest me a couple of location that I must visit 
   with detailed reasons why you suggest those spots.
-  Also, Based on the fact that I take care of ${requirement}, 
+  For ${budget}, 1 means very tight budget, 2 means average budget, 
+  3 means I can spend as much as I want. When you suggest travel plan,
+  you should suggest appropriately based on the budget. 
+  ${
+    requirement
+      ? `Also, Based on the fact that I take care of ${requirement}, 
   suggest me a couple of ${requirement} friendly tourist spots 
-  with detailed reasons why you suggest those spots. 
-  Considering for-broken means very tight budget, average means average budget, 
-  flex means I don't care how much I spend on my vacation. If my budget is ${budget}, 
-  you should take it into consideration. When you suggest above. 
+  with detailed reasons why you suggest those spots. `
+      : `I don't have anyone needs special cares.`
+  }
 
-You must format your response using Bootstrap HTML in the following form, 
-\adding Bootstrap classes to make the response look nice:
+  You must format your response using Bootstrap HTML in the following form, 
+  adding Bootstrap classes to make the response look nice:
 
-<div class="container">...</div>
-`;
+  <div class="container">...</div>
+  `;
 
   console.log({ prompt });
   return prompt;
