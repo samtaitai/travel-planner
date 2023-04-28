@@ -10,8 +10,11 @@ const { OpenAIApi, Configuration } = require("openai");
 // Get the API Key from the .env file via `process.env.OPENAI_API_KEY` variable
 // See https://parceljs.org/features/node-emulation/#.env-files
 function configureOpenAI() {
+  let myKey = window.prompt("Enter OpenAI API key: ");
+  //localStorage.setItem("myKey", myKey);
   const configuration = new Configuration({
-    apiKey: process.env.OPENAI_API_KEY,
+    //apiKey: localStorage.getItem("myKey"),
+    apiKey: myKey,
   });
 
   // Create a client with our account config and return it
